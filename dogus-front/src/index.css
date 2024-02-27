@@ -34,3 +34,24 @@ code {
 .pointer{
   cursor:pointer
 }
+
+.create-note-swal-popup{
+  border-radius: 20px;
+  width: 60%;
+}
+.create-note-swal-title{
+  color: red;
+}
+.create-note-swal-confirm-button{
+
+}
+.swal2-textarea {
+width: 90%;
+border-radius: 25px;
+}
+
+.swal2-input{
+width: 90%;
+border-radius: 25px;
+
+}

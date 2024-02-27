@@ -42,7 +42,7 @@ public class NoteController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<NoteDto> createNote(NoteDto noteDto) {
+    public ResponseEntity<NoteDto> createNote(@RequestBody NoteDto noteDto) {
         try {
             return ResponseEntity.ok(noteService.createNote(noteDto));
         }

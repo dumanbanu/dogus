@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {FaEdit , FaTrash} from "react-icons/fa"
 import { NoteDto } from "../../services/api/model/noteDto";
 import Swal from "sweetalert2"
-import { deleteNoteUsingDelete, getNotesUsingGet } from "../../services/api/noteControllerService";
+import { createNoteUsingPost, deleteNoteUsingDelete, getNotesUsingGet } from "../../services/api/noteControllerService";
 import StandardButton from "../standart-buton/Index";
 import {FaPlus} from "react-icons/fa"
+import { CreateNoteDto } from "../../services/api/model/createNoteDto";
 
 
 
@@ -21,7 +22,7 @@ const handlerClickNotError = (field:string) => {
 const [notes , setNotes] = useState<NoteDto[] |null>(null)
 
 
-useLayoutEffect(() => {
+useEffect(() => {
 
   getNotesUsingGet("c123e7d8-3b97-43e8-84bf-7998e60cfac6").then((data) => {
     setNotes(data.data.content)
@@ -29,7 +30,7 @@ useLayoutEffect(() => {
 } , [])
 
 
-const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.MouseEvent<HTMLTableCellElement>):void =>  {
+const deleteNoteEventHandler =(noteID: string , title : string ,  event: React.MouseEvent<HTMLTableCellElement>):void =>  {
    event.stopPropagation();
 
     const text = ` "<strong>${title}</strong>" başlıklı notu silmek istediğinize emin misiniz` 
@@ -44,7 +45,7 @@ const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.M
     cancelButtonText:"Vazgeç"
   }).then((result) => {
     if (result.isConfirmed) {
-     const result =  deleteNoteUsingDelete(noteID)
+     const result =  deleteNoteUsingDelete(noteID )
     
      result.then((data) => {
       if(data.error) {
@@ -56,7 +57,49 @@ const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.M
 
 }
 
+const addNoteButtonEventHandler = ():void => {
 
+
+  Swal.fire({
+    title: 'Yeni Not Ekle',
+    html:
+      '<input  id= "swal-input1" class="swal2-input" placeholder="Başlık">' +
+      '<textarea  id= "swal-input2" class="swal2-textarea" placeholder="Not Ekleyin..."></textarea>',
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonText : "Ekle",
+    cancelButtonText : "Vazgeç",
+    customClass : {
+      popup : "create-note-swal-popup",
+      confirmButton :"create-note-swal-confirm-button",
+      title : "create-note-swal-title",
+    },
+    preConfirm: () => {
+      const title = (document.getElementById('swal-input1') as HTMLInputElement).value;
+      const content = (document.getElementById('swal-input2') as HTMLInputElement).value;
+      if (!title || !content) {
+        Swal.showValidationMessage('Başlık ve içerik alanları gereklidir');
+        return false;
+      }
+      return { title: title, content: content };
+    }
+  }).then((result) => {
+    if (result.value) {
+      const defaultUserID: string = "c123e7d8-3b97-43e8-84bf-7998e60cfac6"
+      const createNoteReqObject : CreateNoteDto =  {
+        userId :defaultUserID,
+        title : result.value.title,
+        content: result.value.content
+      }
+
+      createNoteUsingPost(createNoteReqObject).then((data) => {
+        console.log(data)
+      })
+    }
+  });
+  
+
+}
 
 
 
@@ -68,7 +111,14 @@ const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.M
               <tr>
                 <th>Başlık</th>
                 <th>Not</th>
-                <th></th>
+                <th>      
+      <StandardButton
+      bg="green"
+      color="white"
+      size="xsmall"
+      content={<FaPlus/>}
+      onClickEventHandler={addNoteButtonEventHandler}
+      /></th>
               </tr>
             </thead>
             <tbody>
@@ -79,7 +129,7 @@ const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.M
                       scope="row"
                       onClick={() => {handlerClickNotError("row")}}
                     >
-                      {note.title.slice(0, 40) + "..."}
+                      {note.title.slice(0, 40)}
                     </th>
                     <td
                       onClick={() => {handlerClickNotError("note")}}
@@ -102,14 +152,6 @@ const deleteNoteEventHandler =(noteID: number , title : string ,  event: React.M
           </table>
       
         </div>
-      
-      <div><StandardButton
-      bg="green"
-      color="white"
-      size="xsmall"
-      content={<FaPlus/>}
-      onClickEventHandler={()=> console.log("selamlar")}
-      /></div>
       </section>
     );
 }

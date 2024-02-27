@@ -24,7 +24,7 @@ public class NoteEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "users_id")
+    @Column(name = "users_id"  , nullable = false)
     private String userId;
 }
 

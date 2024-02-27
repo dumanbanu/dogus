@@ -16,4 +16,5 @@ public class NoteDto {
     private UUID id;
     private String content;
     private String title;
+    private String userId;
 }

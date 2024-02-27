@@ -18,7 +18,7 @@ export async function createNoteUsingPost(body: CreateNoteDto, token: string | n
 }
 
 
-export async function deleteNoteUsingDelete(body: number, token: string | null = null) : Promise<any> {
+export async function deleteNoteUsingDelete(body: string, token: string | null = null) : Promise<any> {
     const endpoint: string = `/notes/delete/${body}`
     const method = "DELETE"
     const { data, error, loading } = await axiosService({ endpoint, method, body, token })
