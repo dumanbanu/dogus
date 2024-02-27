@@ -5,21 +5,23 @@ import com.example.dogus_backend.Entity.UserEntity;
 import com.example.dogus_backend.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class AuthService {
 
     private final UserRepository userRepository;
 
-    public UserDto create(UserDto payload) throws Exception {
-        if (userRepository.findAllByEmail(payload.getEmail()) != null) {
-            throw new Exception("This email exists, please try another one.");
+    public UserDto login(UserDto userDto) throws Exception{
+        UserEntity userEntity = userRepository.findAllByEmail(userDto.getEmail());
+        if (userEntity == null) {
+            throw new Exception("Email not found");
         }
-        UserEntity userEntity = userRepository.save(new ModelMapper().map(payload, UserEntity.class));
+        if (!userEntity.getPassword().equals(userDto.getPassword())) {
+            throw new Exception("Invalid password");
+        }
         return new ModelMapper().map(userEntity, UserDto.class);
     }
-
 }
-
