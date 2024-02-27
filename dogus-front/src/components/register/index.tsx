@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './style.css'; 
+import './style.css';
 import { CreateUserDto } from '../../services/api/model/createUserDto';
 import StandardButton from '../standart-buton/Index';
 import createUserUsingPost from '../../services/api/userControllerService';
@@ -10,21 +10,21 @@ import { useNavigate } from "react-router-dom";
 const RegisterScreen = () => {
 
 
-  const [registerFormData , setRegisterFormData] = useState<CreateUserDto | null >(null)
+  const [registerFormData, setRegisterFormData] = useState<CreateUserDto | null>(null)
   const navigate = useNavigate()
 
 
-  const handleInputChange = (fieldName:string , value:string | number) =>  {
+  const handleInputChange = (fieldName: string, value: string | number) => {
     setRegisterFormData((prevData) => ({
       ...prevData,
-    [fieldName] : value
-    }) )
+      [fieldName]: value
+    }))
   }
 
   const onSubmitForm = () => {
-    const body = registerFormData 
+    const body = registerFormData
     createUserUsingPost(body).then((data) => {
-      if(data.error){
+      if (data.error) {
         Swal.fire({
           title: "Warning!",
           text: data.error.response.data,
@@ -33,7 +33,7 @@ const RegisterScreen = () => {
         return;
       }
       navigate("/login");
-      
+
     })
   }
 
@@ -47,17 +47,17 @@ const RegisterScreen = () => {
             type="text"
             id="name"
             value={registerFormData?.name}
-            onChange={(event) => {handleInputChange("name" , event.target.value)}}
+            onChange={(event) => { handleInputChange("name", event.target.value) }}
             required
           />
         </div>
         <div className="input-group">
-          <label htmlFor= "email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
             value={registerFormData?.email}
-            onChange={(e) => {handleInputChange("email" , e.target.value)}}
+            onChange={(e) => { handleInputChange("email", e.target.value) }}
             required
           />
         </div>
@@ -67,16 +67,16 @@ const RegisterScreen = () => {
             type="password"
             id="password"
             value={registerFormData?.password}
-            onChange={(e) => {handleInputChange("password" , e.target.value)}}
+            onChange={(e) => { handleInputChange("password", e.target.value) }}
             required
           />
         </div>
         <StandardButton
-        size='large'
-        content={"Create"}
-        bg='green'
-        color='white'
-        onClickEventHandler={onSubmitForm}
+          size='large'
+          content={"Create"}
+          bg='green'
+          color='white'
+          onClickEventHandler={onSubmitForm}
         />
       </form>
     </div>

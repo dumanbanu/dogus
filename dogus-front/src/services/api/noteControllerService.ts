@@ -31,8 +31,8 @@ export async function deleteNoteUsingDelete(body: string, token: string | null =
 }
 
 export async function updateNoteUsingPost(body: UpdateNoteDto, token: string | null = null): Promise<any> {
-    const endpoint: string = "/notes/update";
-    const method = "POST"
+    const endpoint: string = `/notes/update/${body.userId}`;
+    const method = "PATCH"
     const { data, error, loading } =await  axiosService({ endpoint, method, body, token })
     const result = {
         data: data,
@@ -41,7 +41,7 @@ export async function updateNoteUsingPost(body: UpdateNoteDto, token: string | n
     }
     return result;
 }
-export async function getNotesUsingGet(userId: string , token: string | null = null) : Promise<any> {
+export async function getNotesUsingGet(userId: string |null , token: string | null = null) : Promise<any> {
     const endpoint: string = `/notes/all/${userId}`;
     const method = "GET"
     const { data, error, loading } = await axiosService({ endpoint, method, token })
@@ -53,7 +53,7 @@ export async function getNotesUsingGet(userId: string , token: string | null = n
     return result;
 }
 
-export async function getSingleNoteUsingGet(body: number, token: string | null = null) : Promise<any> {
+export async function getSingleNoteUsingGet(body: string, token: string | null = null) : Promise<any> {
     const endpoint: string = `/notes/${body}`
     const method = "GET"
     const { data, error, loading } = await axiosService({ endpoint, method, body, token })

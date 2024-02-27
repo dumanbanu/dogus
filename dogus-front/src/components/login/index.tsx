@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './style.css'; 
+import './style.css';
 import loginUserUsingPost from '../../services/api/userLoginControllerService';
 import { UserLoginDto } from '../../services/api/model/userLoginDto';
 import Swal from 'sweetalert2';
@@ -11,25 +11,25 @@ import { CreateUserDto } from '../../services/api/model/createUserDto';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState <string>("");
+  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate()
 
-  const handleLogin = (e:any) => {
-    const body:UserLoginDto = {
-      email:email,
+  const handleLogin = (e: any) => {
+    const body: UserLoginDto = {
+      email: email,
       password: password
     }
     e.preventDefault();
     loginUserUsingPost(body).then(data => {
-      if(data.error){
+      if (data.error) {
         Swal.fire({
-          title : "Error!",
-          text : data.error.response.data,
+          title: "Error!",
+          text: data.error.response.data,
           icon: "error"
         })
-        
-      }else{
+
+      } else {
         const userId = (data.data as CreateUserDto).id
         setAuthUser(userId as string);
         navigate("/home")
@@ -61,7 +61,7 @@ const LoginScreen = () => {
             required
           />
         </div>
-        <button onClick = {handleLogin} className="login-button">Giriş Yap</button>
+        <button onClick={handleLogin} className="login-button">Giriş Yap</button>
         <p className="redirect-text">Hesabın yok mu? <a href="/register">Kaydol</a></p>
       </form>
     </div>

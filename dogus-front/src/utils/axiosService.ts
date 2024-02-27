@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 interface AxiosServiceArgs {
   endpoint: string;
-  method?: 'GET' | 'POST' | 'DELETE' | 'PUT';
+  method?: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
   body?: any;
   token?: string | null;
 }

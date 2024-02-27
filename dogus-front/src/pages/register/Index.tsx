@@ -2,14 +2,12 @@ import React from "react";
 import RegisterScreen from "../../components/register";
 
 
-function Register ():JSX.Element {
+function Register(): JSX.Element {
 
-
-
-    return(
+    return (
 
         <>
-        <RegisterScreen/>
+            <RegisterScreen />
         </>
     );
 }

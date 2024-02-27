@@ -1,10 +1,7 @@
 
 import './App.css';
-import NoteTable from './components/note-table/Index';
 import Login from './pages/login/Index';
 import Register from './pages/register/Index';
-import { getNotesUsingGet } from './services/api/noteControllerService';
-import { setAuthUser, getAuthUser, deleteAuthUser } from './utils/authService/Index';
 import {
     BrowserRouter as Router,
     Route,
@@ -16,17 +13,13 @@ import Header from './components/header';
 
 
 
-
-
-
 function App(): JSX.Element {
-
 
     return (
         <>
-        
-        <Router>
-            <Header/>
+
+            <Router>
+                <Header />
                 <Routes>
                     <Route path={'/login'} element={<Login />} />
                     <Route path={'/register'} element={<Register />} />

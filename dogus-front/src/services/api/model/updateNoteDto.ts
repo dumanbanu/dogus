@@ -1,9 +1,9 @@
-import {NoteDto} from "./noteDto" 
+import { NoteDto } from "./noteDto"
 
 
 
 
 export interface UpdateNoteDto {
-    userId: number;
-    note : NoteDto
+    userId: string | null | number;
+    note: NoteDto
 }

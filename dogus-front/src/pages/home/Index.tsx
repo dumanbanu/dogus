@@ -2,13 +2,11 @@ import React from "react";
 import NoteTable from "../../components/note-table/Index";
 
 
-function Home (): JSX.Element {
-
-
-
-    return(
+function Home(): JSX.Element {
+    
+    return (
         <>
-        <NoteTable/>
+            <NoteTable />
         </>
     );
 }

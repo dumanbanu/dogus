@@ -1,9 +1,5 @@
 import axiosService from "../../utils/axiosService";
-import useAxios from "../../utils/axiosService";
 import { UserLoginDto} from "./model/userLoginDto";
-
-
-
 
 
 export default async function loginUserUsingPost(body:UserLoginDto , token :string|null= null ){
