@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './style.css'; 
 import { deleteAuthUser, getAuthUser } from '../../utils/authService/Index';
 
-const Header = () => {
+const Header = ():JSX.Element => {
 
   const [isUserAuth, setIsUserAuth] = useState<string | null>(getAuthUser())
 
-  useEffect(() => {
+  useEffect((): void=> {
     setIsUserAuth(getAuthUser())
   }, [])
   return (

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
 
-const RegisterScreen = () => {
+const RegisterScreen = (): JSX.Element => {
 
 
   const [registerFormData, setRegisterFormData] = useState<CreateUserDto | null>(null)
@@ -21,7 +21,7 @@ const RegisterScreen = () => {
     }))
   }
 
-  const onSubmitForm = () => {
+  const onSubmitForm = ():void => {
     const body = registerFormData
     createUserUsingPost(body).then((data) => {
       if (data.error) {

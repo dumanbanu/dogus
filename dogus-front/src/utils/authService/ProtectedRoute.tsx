@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { getAuthUser } from './Index';
 
-const ProtectedRoute = () => {
+const ProtectedRoute = () : JSX.Element => {
    const isAuth = getAuthUser();
     return(
         isAuth ? <Outlet/> : <Navigate to="/login"/>

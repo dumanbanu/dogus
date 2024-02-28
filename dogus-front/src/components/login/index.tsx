@@ -9,7 +9,7 @@ import { CreateUserDto } from '../../services/api/model/createUserDto';
 
 
 
-const LoginScreen = () => {
+const LoginScreen = () : JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 

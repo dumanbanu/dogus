@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { NoteDto } from "../../services/api/model/noteDto";
-import Swal from "sweetalert2"
+import Swal, { SweetAlertResult } from "sweetalert2"
 import { createNoteUsingPost, deleteNoteUsingDelete, getNotesUsingGet, getSingleNoteUsingGet, updateNoteUsingPost } from "../../services/api/noteControllerService";
 import StandardButton from "../standart-buton/Index";
 import { FaPlus } from "react-icons/fa"
 import { CreateNoteDto } from "../../services/api/model/createNoteDto";
 import { getAuthUser } from "../../utils/authService/Index";
 import { UpdateNoteDto } from "../../services/api/model/updateNoteDto";
+import Spinner from "../spinner";
 
 
 
@@ -15,21 +16,19 @@ import { UpdateNoteDto } from "../../services/api/model/updateNoteDto";
 
 function NoteTable(): JSX.Element {
 
-
-
-
-
   const [notes, setNotes] = useState<NoteDto[] | null>(null)
+  const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
+  useEffect(():void => {
     getNotes();
   }, [])
 
 
   const getNotes = (): void => {
-    getNotesUsingGet(getAuthUser()).then((data) => {
+    getNotesUsingGet(getAuthUser()).then((data): any => {
       if (data.data) {
+        setLoading(data.data.loading)
         setNotes(data.data.content)
       }
     })
@@ -67,7 +66,7 @@ function NoteTable(): JSX.Element {
   const addNoteButtonEventHandler = (): void => {
 
 
-    Swal.fire({
+    Swal.fire<any>({
       title: 'Yeni Not Ekle',
       html:
         '<input  id= "swal-input1" class="swal2-input" placeholder="Başlık">' +
@@ -90,7 +89,7 @@ function NoteTable(): JSX.Element {
         }
         return { title: title, content: content };
       }
-    }).then((result) => {
+    }).then((result : SweetAlertResult<any>) => {
       if (result.value) {
         const createNoteReqObject: CreateNoteDto = {
           userId: getAuthUser() as string,
@@ -118,7 +117,7 @@ function NoteTable(): JSX.Element {
   const editContent = (id: string) => {
 
     getSingleNoteUsingGet(id).then((data) => {
-      Swal.fire({
+      Swal.fire<any>({
         title: "Update",
         html:
           ` <input value= "${data.data.title}"  id= "swal-input1" class="swal2-input" placeholder="Title"> ` +
@@ -141,7 +140,7 @@ function NoteTable(): JSX.Element {
           }
           return { title: title, content: content };
         }
-      }).then((result) => {
+      }).then((result : SweetAlertResult<any>) => {
         if (result.value) {
           const note: NoteDto = {
             id: id,
@@ -175,57 +174,61 @@ function NoteTable(): JSX.Element {
 
 
   return (
-    <section className="list-container">
-      <div className="col-8">
-        <table className={'table'}>
-          <thead>
-            <tr>
-              <th>Başlık</th>
-              <th>Not</th>
-              <th>
-                <div className="create-note-button-wrapper"><StandardButton
-                  bg="green"
-                  color="white"
-                  size="xsmall"
-                  content={<FaPlus />}
-                  onClickEventHandler={addNoteButtonEventHandler}
-                /></div>
-                </th>
-            </tr>
-          </thead>
-          <tbody>
-            {notes?.map((note: NoteDto) => {
-              return (
-                <tr className="pointer" key={note.id}>
-                  <th
-                    scope="row"
-                  >
-                    {note.title.slice(0, 40)}
+    <>
+      {
+        loading ? <Spinner/> : <section className="list-container">
+          <div className="col-8">
+            <table className={'table'}>
+              <thead>
+                <tr>
+                  <th>Başlık</th>
+                  <th>Not</th>
+                  <th>
+                    <div className="create-note-button-wrapper"><StandardButton
+                      bg="green"
+                      color="white"
+                      size="xsmall"
+                      content={<FaPlus />}
+                      onClickEventHandler={addNoteButtonEventHandler}
+                    /></div>
                   </th>
-                  <td
-                    key={note.id}
-                  >
-                    {note.content}
-                  </td>
-
-                  <td>
-                    <div className="list-table-icons-wrapper">
-                    <FaTrash onClick={(event) => { deleteNoteEventHandler(note.id, note.title, event) }} />
-                    <FaEdit onClick={() => { editContent(note.id) }} />
-                    </div>
-           
-                  </td>
-
-
-
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {notes?.map((note: NoteDto) => {
+                  return (
+                    <tr className="pointer" key={note.id}>
+                      <th
+                        scope="row"
+                      >
+                        {note.title.slice(0, 40)}
+                      </th>
+                      <td
+                        key={note.id}
+                      >
+                        {note.content}
+                      </td>
 
-      </div>
-    </section>
+                      <td>
+                        <div className="list-table-icons-wrapper">
+                          <FaTrash onClick={(event) => { deleteNoteEventHandler(note.id, note.title, event) }} />
+                          <FaEdit onClick={() => { editContent(note.id) }} />
+                        </div>
+
+                      </td>
+
+
+
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+          </div>
+        </section>
+      }
+    </>
   );
 }
 
