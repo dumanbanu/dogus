@@ -23,8 +23,7 @@ public class NoteController {
     public ResponseEntity<Page<NoteDto>> getNotes(@PathVariable UUID userId, Pageable pageable) {
         try {
             return ResponseEntity.ok(noteService.getNotes(userId, pageable));
-        }
-        catch(Exception validationException) {
+        } catch (Exception validationException) {
             validationException.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -34,8 +33,7 @@ public class NoteController {
     public ResponseEntity<NoteDto> getNote(@PathVariable String id) {
         try {
             return ResponseEntity.ok(noteService.getNote(id));
-        }
-        catch(Exception validationException) {
+        } catch (Exception validationException) {
             validationException.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -45,8 +43,7 @@ public class NoteController {
     public ResponseEntity<NoteDto> createNote(@RequestBody NoteDto noteDto) {
         try {
             return ResponseEntity.ok(noteService.createNote(noteDto));
-        }
-        catch(Exception validationException) {
+        } catch (Exception validationException) {
             validationException.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -56,20 +53,17 @@ public class NoteController {
     public ResponseEntity<Boolean> deleteNote(@PathVariable String id) {
         try {
             return ResponseEntity.ok(noteService.deleteNote(id));
-        }
-        catch(Exception validationException) {
+        } catch (Exception validationException) {
             validationException.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<NoteDto> updateNote(@PathVariable String id,
-                                              @RequestBody NoteDto noteDto) {
+    @PostMapping("/update")
+    public ResponseEntity<NoteDto> updateNote(@RequestBody NoteDto noteDto) {
         try {
-            return ResponseEntity.ok(noteService.updateNote(id, noteDto));
-        }
-        catch(Exception validationException) {
+            return ResponseEntity.ok(noteService.updateNote(noteDto));
+        } catch (Exception validationException) {
             validationException.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

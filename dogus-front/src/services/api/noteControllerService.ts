@@ -31,8 +31,8 @@ export async function deleteNoteUsingDelete(body: string, token: string | null =
 }
 
 export async function updateNoteUsingPost(body: UpdateNoteDto, token: string | null = null): Promise<any> {
-    const endpoint: string = `/notes/update/${body.userId}`;
-    const method = "PATCH"
+    const endpoint: string = `/notes/update`;
+    const method = "POST"
     const { data, error, loading } =await  axiosService({ endpoint, method, body, token })
     const result = {
         data: data,

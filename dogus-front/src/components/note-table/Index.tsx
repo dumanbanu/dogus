@@ -142,14 +142,11 @@ function NoteTable(): JSX.Element {
         }
       }).then((result : SweetAlertResult<any>) => {
         if (result.value) {
-          const note: NoteDto = {
+          const updateNoteObject: UpdateNoteDto = {
             id: id,
             title: result.value.title,
             content: result.value.content,
-          }
-          const updateNoteObject: UpdateNoteDto = {
-            userId: getAuthUser(),
-            note: note
+            userId: getAuthUser() as string,
           }
 
           updateNoteUsingPost(updateNoteObject).then((data) => {
