@@ -4,6 +4,8 @@ import { NoteDto } from "./noteDto"
 
 
 export interface UpdateNoteDto {
-    userId: string | null | number;
-    note: NoteDto
+    id: string;
+    userId: string;
+    title : string;
+    content: string;
 }
